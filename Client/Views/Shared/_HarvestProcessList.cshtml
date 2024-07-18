@@ -1,0 +1,39 @@
+﻿@model List<HarvestProcess>
+@using Newtonsoft.Json
+@using Project_PRN231_Client.Models
+@{
+	string user = Context.Session.GetString("user") ?? "";
+	User u = JsonConvert.DeserializeObject<User>(user);
+}
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>HarvestProcessId</th>
+			<th>CropName</th>
+			<th>Username</th>
+			<th>HarvestDate</th>
+			<th>QuantityHarvested</th>
+			<th>Storages</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>@item.HarvestProcessId</td>
+				<td>@item.Crop.CropName</td>
+				<td>@u.Username</td>
+				<td>@item.HarvestDate.ToString("dd/MM/yyyy")</td>
+				<td>@item.QuantityHarvested</td>
+				<td>
+					@foreach (var storage in item.StorageAllocations)
+					{
+						@: @storage.StorageId - @storage.Quantity
+						<br />
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

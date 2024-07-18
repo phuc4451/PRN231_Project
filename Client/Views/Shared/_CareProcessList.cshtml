@@ -1,0 +1,37 @@
+﻿@model List<CareProcess>
+@using Newtonsoft.Json
+@using Project_PRN231_Client.Models
+@{
+    string user = Context.Session.GetString("user") ?? "";
+    User u = JsonConvert.DeserializeObject<User>(user);
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>CareProcessId</th>
+            <th>CropName</th>
+            <th>Username</th>
+            <th>TaskDescription</th>
+            <th>MaterialsUsed</th>
+            <th>CompletionStatus</th>
+            <th>DueDate</th>
+            <th>CompletionDate</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CareProcessId</td>
+                <td>@item.Crop.CropName</td>
+                <td>@u.Username</td>
+                <td>@item.TaskDescription</td>
+                <td>@item.MaterialsUsed</td>
+                <td>@item.CompletionStatus</td>
+                <td>@item.DueDate.ToString("dd/MM/yyyy")</td>
+                <td>@(item.CompletionDate?.ToString("dd/MM/yyyy")??"Not completed")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,33 @@
+﻿@model List<PlantProcess>
+@using Newtonsoft.Json
+@using Project_PRN231_Client.Models
+@{
+    string user = Context.Session.GetString("user") ?? "";
+    User u = JsonConvert.DeserializeObject<User>(user);
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>PlantProcessId</th>
+            <th>CropName</th>
+            <th>Username</th>
+            <th>Quantity</th>
+            <th>PlantingDate</th>
+            <th>ExpectedHarvestDate</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.PlantProcessId</td>
+                <td>@item.Crop.CropName</td>
+                <td>@u.Username</td>
+                <td>@item.Quantity</td>
+                <td>@item.PlantingDate.ToString("dd/MM/yyyy")</td>
+                <td>@(item.ExpectedHarvestDate?.ToString("dd/MM/yyyy")??"No expected date")</td>
+            </tr>
+        }
+    </tbody>
+</table>
